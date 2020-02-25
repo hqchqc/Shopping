@@ -30,8 +30,8 @@ import TabBarItem from 'components/common/tabbar/TabBarItem';
 export default {
     name: 'MainTabBar',
     components:{
-        TabBar,
-        TabBarItem,
+      TabBar,
+      TabBarItem,
   }
 }
 </script>
