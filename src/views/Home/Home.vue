@@ -4,13 +4,15 @@
       <div slot="center">购物街</div>
     </nav-bar>
     
-    <scroll class="scroll">
+    <scroll class="scroll" ref="scroll" @scrollPosition='scrollPosition' :probe-type='3' :pull-up='true' @LoadMore='LoadMore'>
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view/>
       <tab-control class="tab-control" @clickTab="clickTab"  :text="['流行','新款','精选']"></tab-control>
       <goods-list :goodsItem="goods[currentType].list"/>
     </scroll>
+
+    <back-top @click.native="backTop" v-show="isShow" />
     
   </div>
 </template>
@@ -24,6 +26,7 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/TabControl/TabControl'
 import GoodsList from 'components/content/Goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
+import BackTop from 'components/content/BackTop/BackTop'
 
 import {getHomeMultidata,getHomeGoods} from 'network/home.js';
 
@@ -38,7 +41,8 @@ export default {
           'new':{page:0,list:[]},
           'sell':{page:0,list:[]},
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isShow: false
       }
     },
     components:{
@@ -48,7 +52,8 @@ export default {
       NavBar,
       TabControl,
       GoodsList,
-      Scroll
+      Scroll,
+      BackTop
     },
     methods: {
       // 监听事件相关
@@ -61,6 +66,19 @@ export default {
           case 2: this.currentType = 'sell'
           break;
         }
+      },
+
+      backTop(){
+        this.$refs.scroll.scrollTo(0,0,1000);
+      },
+
+      scrollPosition(position){
+        return this.isShow = -(position.y) > 1000
+      },
+
+      LoadMore(){
+        this.getHomeGoods(this.currentType);
+        
       },
 
       // 网络请求相关
@@ -76,9 +94,11 @@ export default {
         getHomeGoods(type,page).then(res=>{
           this.goods[type].list.push(...res.data.data.list)
           this.goods[type].page += 1   
-        })
+          this.$refs.scroll.finishPullUp()
+        });
       }
     },
+
     created() {
       // 获得轮播图数据
       this.getHomeMultidata()
