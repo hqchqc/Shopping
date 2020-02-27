@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item">
       <a :href="goodsList.clientUrl">
-        <img :src="goodsList.show.img">
+        <img :src="goodsList.show.img" @load="LoadFinish">
       </a>
       <div class="goods-info">
         <p>{{goodsList.title}}</p>
@@ -22,7 +22,12 @@ export default {
                 return {}
             }
         }
-    }
+    },
+    methods: {
+      LoadFinish(){
+        this.$bus.$emit('FinishLoad')
+      }
+    },
 }
 </script>
 

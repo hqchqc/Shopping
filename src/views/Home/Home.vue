@@ -9,7 +9,7 @@
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view/>
       <tab-control class="tab-control" @clickTab="clickTab"  :text="['流行','新款','精选']"></tab-control>
-      <goods-list :goodsItem="goods[currentType].list"/>
+      <goods-list :goodsItem="showGoods"/>
     </scroll>
 
     <back-top @click.native="backTop" v-show="isShow" />
@@ -54,6 +54,11 @@ export default {
       GoodsList,
       Scroll,
       BackTop
+    },
+    computed: {
+      showGoods(){
+        return this.goods[this.currentType].list
+      }
     },
     methods: {
       // 监听事件相关
@@ -106,6 +111,12 @@ export default {
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+    },
+    mounted() {
+      this.$bus.$on('FinishLoad',()=>{
+        this.$refs && this.$refs.scroll.refresh()
+      })
     },
     
 }
