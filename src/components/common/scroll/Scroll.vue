@@ -36,12 +36,17 @@ export default {
             probeType:this.probeType,
             pullUpLoad:this.pullUp
         });
-        this.Bscroll.on('scroll',(position)=>{
-            this.$emit('scrollPosition',position)
-        });
-        this.Bscroll.on('pullingUp',()=>{
-            this.$emit('LoadMore')
-        });
+        if(this.probeType == 2 || this.probeType == 3){
+            this.Bscroll.on('scroll',(position)=>{
+                this.$emit('scrollPosition',position)
+            });
+        }
+        if(this.pullUp){
+            this.Bscroll.on('pullingUp',()=>{
+                this.$emit('LoadMore')
+            });
+        }
+        
     },
     methods: {
         scrollTo(x,y,time=500){
@@ -51,7 +56,7 @@ export default {
             this.Bscroll && this.Bscroll.finishPullUp();
         },
         refresh(){
-            this.Bscroll && this.Bscroll.refresh()
+            this.Bscroll && this.Bscroll.refresh();
         }
     },
 

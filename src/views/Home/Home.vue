@@ -29,6 +29,7 @@ import Scroll from 'components/common/scroll/Scroll'
 import BackTop from 'components/content/BackTop/BackTop'
 
 import {getHomeMultidata,getHomeGoods} from 'network/home.js';
+import {debounce} from 'common/utils.js'
 
 export default {
     name: 'home',
@@ -101,7 +102,9 @@ export default {
           this.goods[type].page += 1   
           this.$refs.scroll.finishPullUp()
         });
-      }
+      },
+
+      
     },
 
     created() {
@@ -114,8 +117,9 @@ export default {
 
     },
     mounted() {
+      const refresh = debounce(this.$refs.scroll.refresh,500)
       this.$bus.$on('FinishLoad',()=>{
-        this.$refs && this.$refs.scroll.refresh()
+        refresh()
       })
     },
     
