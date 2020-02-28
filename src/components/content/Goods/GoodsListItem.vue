@@ -1,8 +1,6 @@
 <template>
-  <div class="goods-item">
-      <a :href="goodsList.clientUrl">
-        <img :src="goodsList.show.img" @load="LoadFinish">
-      </a>
+  <div class="goods-item" @click="clickItem">
+      <img :src="goodsList.show.img" @load="LoadFinish">
       <div class="goods-info">
         <p>{{goodsList.title}}</p>
         <span class="price">{{goodsList.price}}</span>
@@ -26,6 +24,9 @@ export default {
     methods: {
       LoadFinish(){
         this.$bus.$emit('FinishLoad')
+      },
+      clickItem(){
+        this.$router.push('/detail/' + this.goodsList.iid)
       }
     },
 }

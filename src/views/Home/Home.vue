@@ -4,11 +4,17 @@
       <div slot="center">购物街</div>
     </nav-bar>
     
+    <tab-control class="tab-control" @clickTab="clickTab" 
+                :text="['流行','新款','精选']" ref='getOffsetTop1'
+                 v-show="isFixed"></tab-control>
+
     <scroll class="scroll" ref="scroll" @scrollPosition='scrollPosition' :probe-type='3' :pull-up='true' @LoadMore='LoadMore'>
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @LoadImg='LoadImg'></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view/>
-      <tab-control class="tab-control" @clickTab="clickTab"  :text="['流行','新款','精选']"></tab-control>
+      <tab-control class="tab-control" @clickTab="clickTab" 
+                  :text="['流行','新款','精选']" ref='getOffsetTop2'
+                  :class="{fixed:isFixed}"></tab-control>
       <goods-list :goodsItem="showGoods"/>
     </scroll>
 
@@ -43,7 +49,10 @@ export default {
           'sell':{page:0,list:[]},
         },
         currentType: 'pop',
-        isShow: false
+        isShow: false,
+        offsetTop: 0,
+        isFixed:false,
+        position:0
       }
     },
     components:{
@@ -72,19 +81,29 @@ export default {
           case 2: this.currentType = 'sell'
           break;
         }
+        this.$refs.getOffsetTop1.currentIndex = index
+        this.$refs.getOffsetTop2.currentIndex = index
       },
 
       backTop(){
         this.$refs.scroll.scrollTo(0,0,1000);
       },
 
-      scrollPosition(position){
-        return this.isShow = -(position.y) > 1000
+      scrollPosition(position){ 
+        // 1. 判断 回到顶部的箭头 是否显示
+        this.isShow = -(position.y) > 1000
+
+        // 2. 决定 tabControl 是否吸顶
+        this.isFixed = -(position.y) > this.offsetTop
+
       },
 
       LoadMore(){
-        this.getHomeGoods(this.currentType);
-        
+        this.getHomeGoods(this.currentType);  
+      },
+
+      LoadImg(){
+        this.offsetTop = this.$refs.getOffsetTop2.$el.offsetTop
       },
 
       // 网络请求相关
@@ -103,7 +122,6 @@ export default {
           this.$refs.scroll.finishPullUp()
         });
       },
-
       
     },
 
@@ -122,13 +140,19 @@ export default {
         refresh()
       })
     },
+    activated() {
+      this.$refs.scroll.refresh()
+      this.$refs.scroll.scrollTo(0,this.position,0)
+    },
+    deactivated() {
+      this.position = this.$refs.scroll.getY()
+    }
     
 }
 </script>
 
 <style >
   #home{
-    padding-top: 44px;
     height: 100vh;
     position: relative;
   }
@@ -136,12 +160,6 @@ export default {
   .home-nav{
     background-color: var(--color-tint);
     color:#fff;
-
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 9;
   }
 
   .tab-control{

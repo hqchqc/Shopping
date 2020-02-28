@@ -57,6 +57,9 @@ export default {
         },
         refresh(){
             this.Bscroll && this.Bscroll.refresh();
+        },
+        getY(){
+            return this.Bscroll ? this.Bscroll.y : 0
         }
     },
 
