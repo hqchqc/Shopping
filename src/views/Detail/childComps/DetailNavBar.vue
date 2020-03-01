@@ -29,6 +29,7 @@ export default {
     methods: {
         detailClick(index){
             this.currentIndex = index;
+            this.$emit('clickDetailNavBar',index)
         },
         goBack(){
             this.$router.back();

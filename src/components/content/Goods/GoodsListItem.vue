@@ -1,12 +1,11 @@
 <template>
   <div class="goods-item" @click="clickItem">
-      <img :src="goodsList.show.img" @load="LoadFinish">
+      <img :src="showImage" @load="LoadFinish">
       <div class="goods-info">
         <p>{{goodsList.title}}</p>
         <span class="price">{{goodsList.price}}</span>
         <span class="collect">{{goodsList.cfav}}</span>
       </div>
-      
   </div>
 </template>
 
@@ -21,9 +20,21 @@ export default {
             }
         }
     },
+    computed: {
+      showImage(){
+        return this.goodsList.image || this.goodsList.show.img
+      }
+    },
     methods: {
+      // LoadFinish(){
+      //   if(this.$route.path.indexOf('/home')){
+      //     this.$bus.$emit('detailFinishLoad')
+      //   }else if(this.$route.path.indexOf('/detail')){
+      //     this.$bus.$emit('homeFinishLoad')
+      //   }
+      // },
       LoadFinish(){
-        this.$bus.$emit('FinishLoad')
+          this.$bus.$emit('FinishLoad')
       },
       clickItem(){
         this.$router.push('/detail/' + this.goodsList.iid)

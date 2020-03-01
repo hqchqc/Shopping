@@ -53,9 +53,11 @@ export default {
     padding: 20px 0;
     border-bottom: 5px solid #f2f5f8;
     position: relative;
+    background-color: #fff;
   }
   .info-desc {
     padding: 0 15px;
+ 
   }
   .info-desc .start, .info-desc .end {
     width: 90px;
