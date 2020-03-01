@@ -32,15 +32,14 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/TabControl/TabControl'
 import GoodsList from 'components/content/Goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
-import BackTop from 'components/content/BackTop/BackTop'
 
 import {getHomeMultidata,getHomeGoods} from 'network/home.js';
 import {debounce} from 'common/utils.js'
-import {itemListenerMixin} from 'common/mixin.js'
+import {itemListenerMixin,backTop} from 'common/mixin.js'
 
 export default {
     name: 'home',
-    mixins:[itemListenerMixin],
+    mixins:[itemListenerMixin,backTop],
     data() {
       return {
         banners: [],
@@ -51,7 +50,6 @@ export default {
           'sell':{page:0,list:[]},
         },
         currentType: 'pop',
-        isShow: false,
         offsetTop: 0,
         isFixed:false,
         position:0,
@@ -64,8 +62,7 @@ export default {
       NavBar,
       TabControl,
       GoodsList,
-      Scroll,
-      BackTop
+      Scroll
     },
     computed: {
       showGoods(){
@@ -87,13 +84,9 @@ export default {
         this.$refs.getOffsetTop2.currentIndex = index
       },
 
-      backTop(){
-        this.$refs.scroll.scrollTo(0,0,1000);
-      },
-
       scrollPosition(position){ 
         // 1. 判断 回到顶部的箭头 是否显示
-        this.isShow = -(position.y) > 1000
+        this.backLinster(position)
 
         // 2. 决定 tabControl 是否吸顶
         this.isFixed = -(position.y) > this.offsetTop

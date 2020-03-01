@@ -1,7 +1,8 @@
 <template>
     <div id="detail">
         <detail-nav-bar class="detail-nav" @clickDetailNavBar='clickDetailNavBar' ref="detailNav"/>
-        <scroll class="content" ref="scroll" @scrollPosition="detailScroll" :probeType='2'>
+        {{$store.state.cartList.length}}
+        <scroll class="content" ref="scroll" @scrollPosition="detailScroll" :probeType='2' :pull-up='true'>
             <detail-swiper :TopImage='TopImage'/>
             <detail-base-info :GoodsInfo='GoodsInfo'/>
             <detail-shop-info :ShopInfo='ShopInfo'/>
@@ -10,7 +11,12 @@
             <detail-commonent-info :CommonentInfo='CommonentInfo' ref="comment"/>
             <goods-list :goodsItem='recommends' ref="goodsForYou"/>
         </scroll>  
-        <detail-button-bar/>  
+
+        <detail-button-bar @addToCart='addToCart'/>  
+        <back-top @click.native="backTop" v-show="isShow"/>
+
+        
+        
     </div>
 </template>
 
@@ -31,12 +37,12 @@ import {getDetail,getRecommend} from 'network/detail'
 import {GoodsInfo,ShopInfo,GoodsParam} from 'network/detail'
 
 import {debounce} from 'common/utils.js'
-import {itemListenerMixin} from 'common/mixin.js'
+import {itemListenerMixin,backTop} from 'common/mixin.js'
 
 
 export default {
     name: 'Detail',
-    mixins:[itemListenerMixin],
+    mixins:[itemListenerMixin,backTop],
     components:{
         DetailNavBar,
         DetailSwiper,
@@ -91,11 +97,10 @@ export default {
         this.getThemeTopY = debounce(()=>{
             this.themeTopYs = []
             this.themeTopYs.push(0)
-            this.themeTopYs.push(this.$refs.options.$el.offsetTop)
+            this.themeTopYs.push(this.$refs.options.$el.offsetTop-50)
             this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
-            this.themeTopYs.push(this.$refs.goodsForYou.$el.offsetTop)   
+            this.themeTopYs.push(this.$refs.goodsForYou.$el.offsetTop-50)   
             this.themeTopYs.push(Number.MAX_VALUE)         
-            console.log(this.themeTopYs)
         },500)
     },
     methods: {
@@ -108,6 +113,10 @@ export default {
             this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],100)
         },
         detailScroll(position){
+            // 1. 判断 回到顶部的箭头 是否显示
+            this.backLinster(position)
+
+            // 2. 导航跟随移动
             let detailPosition = -this.$refs.scroll.getY()
             let length = this.themeTopYs.length
             // for(let attr = 0; attr<length;attr++){
@@ -133,6 +142,16 @@ export default {
                     this.$refs.detailNav.currentIndex = this.currentIndex;
                 }
             }
+        },
+        addToCart(){
+            const product = {};
+            product.image = this.TopImage[0];
+            product.title = this.GoodsInfo.title;
+            product.discript = this.GoodsInfo.desc;
+            product.price = this.GoodsInfo.lowNowPrice;
+            product.iid = this.iid;
+
+            this.$store.commit('addCart',product)
         }
     },
     mounted() {
@@ -157,6 +176,6 @@ export default {
         background-color: #fff;
     }
     .content{
-        height: calc(100% - 44px - 49px);
+        height: calc(100% - 43px - 49px);
     }
 </style>
