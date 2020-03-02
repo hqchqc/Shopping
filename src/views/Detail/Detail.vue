@@ -1,7 +1,6 @@
 <template>
     <div id="detail">
         <detail-nav-bar class="detail-nav" @clickDetailNavBar='clickDetailNavBar' ref="detailNav"/>
-        {{$store.state.cartList.length}}
         <scroll class="content" ref="scroll" @scrollPosition="detailScroll" :probeType='2' :pull-up='true'>
             <detail-swiper :TopImage='TopImage'/>
             <detail-base-info :GoodsInfo='GoodsInfo'/>
@@ -13,10 +12,7 @@
         </scroll>  
 
         <detail-button-bar @addToCart='addToCart'/>  
-        <back-top @click.native="backTop" v-show="isShow"/>
-
-        
-        
+        <back-top @click.native="backTop" v-show="isShow"/>     
     </div>
 </template>
 
@@ -150,8 +146,8 @@ export default {
             product.discript = this.GoodsInfo.desc;
             product.price = this.GoodsInfo.lowNowPrice;
             product.iid = this.iid;
-
-            this.$store.commit('addCart',product)
+            // 记录数量
+            this.$store.dispatch('addCart',product)
         }
     },
     mounted() {
