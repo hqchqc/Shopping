@@ -4,12 +4,15 @@
     <scroll class="CartScroll" ref="CartScroll">
       <cart-list-item v-for="(itemInfo,index) of $store.state.cartList" :key="index" :itemInfo='itemInfo'/>
     </scroll>
+    <cart-botton-bar/>
   </div>
 </template>
 
 <script>
 import CartNavBar from './childComps/CartNavBar'
 import CartListItem from './childComps/CartListItem'
+import CartBottonBar from './childComps/CartBottomBar'
+
 import Scroll from 'components/common/scroll/Scroll'
 
 export default {
@@ -17,6 +20,7 @@ export default {
     components:{
       CartNavBar,
       CartListItem,
+      CartBottonBar,
       Scroll
     },
     data() {
@@ -35,7 +39,7 @@ export default {
     height: 100vh;
   }
   .CartScroll{
-    height: calc(100% - 43px - 49px);
+    height: calc(100% - 43px - 49px - 44px);
     overflow: hidden;
   }
 </style>
