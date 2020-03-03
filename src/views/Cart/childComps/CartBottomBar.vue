@@ -7,7 +7,7 @@
         <div class="CartBar-center">
             <span>合计({{addCount}})</span>
         </div>
-        <div class="CartBar-right">
+        <div class="CartBar-right" @click="CartToast">
             <span>去计算({{checkLength}})</span>
         </div>
     </div>
@@ -65,6 +65,10 @@ export default {
         //    this.$store.state.cartList.forEach(item => {
         //            item.isCheck = !this.checkState
         //     })
+        },
+        CartToast(){
+            if(!this.checkLength)
+                this.$toast.show('请选择商品')
         }
     },
 }

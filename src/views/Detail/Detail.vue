@@ -12,7 +12,8 @@
         </scroll>  
 
         <detail-button-bar @addToCart='addToCart'/>  
-        <back-top @click.native="backTop" v-show="isShow"/>     
+        <back-top @click.native="backTop" v-show="isShow"/>    
+        <!-- <toast :message='message' :ToastShow='ToastShow'/>  -->
     </div>
 </template>
 
@@ -35,6 +36,10 @@ import {GoodsInfo,ShopInfo,GoodsParam} from 'network/detail'
 import {debounce} from 'common/utils.js'
 import {itemListenerMixin,backTop} from 'common/mixin.js'
 
+import {mapActions} from 'vuex'
+
+import Toast from 'components/common/Toast/index.js'
+
 
 export default {
     name: 'Detail',
@@ -49,7 +54,8 @@ export default {
         DetailCommonentInfo,
         DetailButtonBar,
         Scroll,
-        GoodsList
+        GoodsList,
+        // Toast
     },
     data() {
         return {
@@ -63,7 +69,9 @@ export default {
             recommends:[],
             themeTopYs:[],
             getThemeTopY:{},
-            currentIndex:0
+            currentIndex:0,
+            // message:'',
+            // ToastShow:false
         }
     },
     created() {
@@ -100,6 +108,12 @@ export default {
         },500)
     },
     methods: {
+        // 第一种写法
+        // ...mapActions(['addCart']),
+        // 第二种写法  键 => 你起的名字  值 => 调用的函数
+        ...mapActions({
+            AddCart: 'addCart'
+        }),
         imageLoad(){
             this.$refs.scroll.refresh();
 
@@ -146,8 +160,29 @@ export default {
             product.discript = this.GoodsInfo.desc;
             product.price = this.GoodsInfo.lowNowPrice;
             product.iid = this.iid;
-            // 记录数量
-            this.$store.dispatch('addCart',product)
+            // 记录数量 dispatch方法返回的是一个promise  
+            // 第一种写法
+            // this.$store.dispatch('addCart',product).then((res)=>{
+            //     console.log(res)
+            // })
+            // 第二种写法 类似mapGetters
+            this.AddCart(product).then((res)=>{
+
+                // 第一种手动写成组件
+                // this.ToastShow = true;
+                // this.message = res;
+
+                // setTimeout(() => {
+                //     this.ToastShow = false;
+                //     this.message = '';
+                // }, 1500);
+                // console.log(res)
+
+                // 第二种封装成插件的toast
+                this.$toast.show(res)
+            })
+
+
         }
     },
     mounted() {
