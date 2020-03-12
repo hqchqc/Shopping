@@ -1,29 +1,16 @@
-# supermall
+### 商城项目
+本项目是参照CoderWhy老师的视频做的，老师讲的特别好,值得一看,很多地方会讲到原理，值得学习
 
-## Project setup
-```
-npm install
-```
+项目目前已经完成视频中老师的进度，有两个页面没有完成，后面有可能的话我会继续完善
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+关于项目的问题也欢迎大家提问，有时间我会一一解答
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#### 部分截图
 
-### Run your tests
-```
-npm run test
-```
+![](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161526218.png)
 
-### Lints and fixes files
-```
-npm run lint
-```
+![image-20200312161539073](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161539073.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![image-20200312161555835](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161555835.png)
+
+![image-20200312161639671](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161639671.png)
