@@ -7,10 +7,10 @@
 
 #### 部分截图
 
-![](src\assets\image\readme\image-20200312161526218.png)
+![](https://github.com/image/image-20200312161526218.png)
 
-![image-20200312161539073](src\assets\image\readme\image-20200312161539073.png)
+![image-20200312161539073](https://github.com/image/image-20200312161539073.png)
 
-![image-20200312161555835](src\assets\image\readme\image-20200312161555835.png)
+![image-20200312161555835](https://github.com/image/image-20200312161555835.png)
 
-![image-20200312161639671](src\assets\image\readme\image-20200312161639671.png)
+![image-20200312161639671](https://github.com/image/image-20200312161639671.png)
