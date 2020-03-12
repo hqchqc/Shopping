@@ -7,10 +7,10 @@
 
 #### 部分截图
 
-![](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161526218.png)
+![](src\assets\image\readme\image-20200312161526218.png)
 
-![image-20200312161539073](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161539073.png)
+![image-20200312161539073](src\assets\image\readme\image-20200312161539073.png)
 
-![image-20200312161555835](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161555835.png)
+![image-20200312161555835](src\assets\image\readme\image-20200312161555835.png)
 
-![image-20200312161639671](C:\Users\hqc\AppData\Roaming\Typora\typora-user-images\image-20200312161639671.png)
+![image-20200312161639671](src\assets\image\readme\image-20200312161639671.png)
