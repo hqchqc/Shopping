@@ -12,6 +12,7 @@
     "better-scroll": "^1.15.2",
     "core-js": "^3.6.4",
     "fastclick": "^1.0.6",
+    "lodash": "^4.17.19",
     "minimist": "^1.2.3",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11",
