@@ -38,7 +38,12 @@ export default {
     methods: {
         btnClick(){
             // console.log('1');
-            this.$router.push(this.path);
+            if(this.path == '/category' || this.path == '/profile'){
+                this.$toast.show('该功能正在完善中...')
+            }else{
+                this.$router.push(this.path);
+            }
+            
         }
     },
 }
